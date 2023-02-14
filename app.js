@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        errors: [{ user: "User not found" }],
+        errors: { message: "User not found" },
       });
     }
 
@@ -90,9 +90,7 @@ router.post("/login", async (req, res) => {
       user.token = token;
       res.status(200).json(user);
     }
-    return res
-      .status(400)
-      .json({ errors: [{ password: "Incorrect password" }] });
+    return res.status(400).json({ errors: { message: "Incorrect password" } });
   } catch (err) {
     console.log(err);
   }
