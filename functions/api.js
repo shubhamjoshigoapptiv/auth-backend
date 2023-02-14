@@ -1,16 +1,16 @@
 require("dotenv").config();
-require("./config/database").connect();
+require("../config/database").connect();
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
-const User = require("./model/user");
-const auth = require("./middleware/auth");
+const User = require("../model/user");
+const auth = require("../middleware/auth");
 const serverless = require("serverless-http");
 const app = express();
+const router = express.Router();
 
 app.use(express.json({}));
-const router = express.Router();
 
 app.use(cors());
 
@@ -110,6 +110,7 @@ router.use("*", (req, res) => {
   });
 });
 
-app.use(`/api`, router);
+app.use(`/.netlify/functions/api`, router);
 
 module.exports = app;
+module.exports.handler = serverless(app);
